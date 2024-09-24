@@ -1,0 +1,44 @@
+a:hover > .info {
+    opacity: 1;
+    background-color: var(--AccentColorTransparent);
+}
+
+a:hover {
+    background-blend-mode: screen;
+}
+
+.info {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    transition: 0.5s;
+    padding: 10px;
+    height: -webkit-fill-available;
+    width: -webkit-fill-available;
+    border-radius: var(--border);
+
+    margin: 0;
+
+    font-size: 35px;
+}
+
+.displayInfo {
+    width: 13dvw;
+    min-width: 255px;
+
+    height: 39dvh;
+    min-height: 370px;
+    
+    text-decoration: none;
+    color: white;
+    position: relative;
+}
+
+.title-card {
+    font-size: 30px;
+    position: absolute;
+    bottom: -15%;
+    left: 50%;
+    width: 110%;
+    transform: translate(-50%, -50%);
+}

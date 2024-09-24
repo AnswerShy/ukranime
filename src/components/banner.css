@@ -1,0 +1,69 @@
+.release_genres {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.5%;
+    align-items: center;
+    margin: 0;
+    width: -webkit-fill-available;
+    column-gap: 4.5%;
+    font-size: 45px;
+}
+.release_genres * {
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+div#info {
+    position: absolute;
+    bottom: 0;
+    display: grid;
+    padding: 5%;
+    width: 55%;
+    z-index: 1;
+    font-size: 70px;
+}
+
+p.description {
+    text-align: left;
+    font-size: 35px;
+    color: var(--textHalfTransp);
+}
+
+img.banner {
+    position: absolute;
+    height: -webkit-fill-available;
+    right: 0;
+    bottom: -5px;
+    z-index: 1;
+    filter: drop-shadow(14px 14px var(--AccentColor)) drop-shadow(7px 7px var(--AccentColorSecond));
+}
+
+.ticker-row {
+    background-repeat: repeat;
+    animation-duration: 20s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+}
+
+.ticker-row:nth-child(even) {
+    animation-name: ticker-left;
+}
+
+.ticker-row:nth-child(odd) {
+    animation-name: ticker-right;
+}
+
+@media (max-width: 768px) {
+    .grid-item:nth-child(2), 
+    .grid-item:nth-child(3) {
+        display: none; /* Hide second and third rows */
+    }
+}
+

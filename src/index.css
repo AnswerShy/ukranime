@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Gochi+Hand&display=swap');
+
+:root {
+  --BG: #1E1E1E;
+  --BG2: #595959;
+  --AccentColor: #7E7E7E;
+  --AccentColorTined: #2F2F2F;
+  --AccentColorTransparent: #2f2f2fcb;
+  --AccentColorSecond: #2F2F2F;
+  --border: 12px;
+  --textHalfTransp: rgb(255, 255, 255, 50%);
+  --textProcentTransp: rgba(255, 255, 255, 0.02);
+}
+html {
+  scroll-snap-type: y mandatory;
+  transition: 1s;
+}
+body {
+  background-color: var(--BG);
+  color: white;
+  font-family: "Gochi Hand", cursive;
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--BG2);
+}
+
+header > a:hover {
+  color: var(--AccentColor) !important;
+}
+
+a, a:visited {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  border-radius: var(--border);
+  background-size: cover;
+  background-position: center;
+  margin-bottom: 45px;
+}
+
+*::selection {
+  background-color: var(--AccentColorSecond);
+}
+
+* {
+  margin: 0.5vh auto;
+}
+
+l-zoomies {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
