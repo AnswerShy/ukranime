@@ -30,14 +30,14 @@ class PlayerElement {
         controls.className = "controls";
 
         const playIcon = document.createElement("img");
-        playIcon.src = "/assets/icons/play.svg";
+        playIcon.src = "ukranime/assets/icons/play.svg";
         playIcon.className = "play-icon";
 
         const soundControl = document.createElement("div");
         soundControl.id = "sound";
 
         const soundIcon = document.createElement("img");
-        soundIcon.src = "/assets/icons/sound.svg";
+        soundIcon.src = "ukranime/assets/icons/sound.svg";
         soundIcon.className = "soundImg";
         soundIcon.setAttribute("muted", "false");
 
@@ -57,7 +57,7 @@ class PlayerElement {
         timeDisplay.id = "time";
 
         const paramsIcon = document.createElement("img");
-        paramsIcon.src = "/assets/icons/options.svg";
+        paramsIcon.src = "ukranime/assets/icons/options.svg";
         paramsIcon.id = "params";
 
         const paramsMenu = document.createElement("div");
@@ -104,7 +104,7 @@ class PlayerElement {
         speedControl.appendChild(speedSlider);
 
         const fullscreenButton = document.createElement("img");
-        fullscreenButton.src = "/assets/icons/fullscreen.svg";
+        fullscreenButton.src = "ukranime/assets/icons/fullscreen.svg";
         fullscreenButton.className = "fullscreen-icon";
 
         const progressBar = document.createElement("input");
@@ -202,11 +202,11 @@ class PlayerElement {
         function playOrPause() {
             if(video.paused) {
                 video.play()
-                playIcon.src = '/assets/icons/pause.svg'
+                playIcon.src = 'urkanime/assets/icons/pause.svg'
             }
             else {
                 video.pause()
-                playIcon.src = '/assets/icons/play.svg' 
+                playIcon.src = 'ukranime/assets/icons/play.svg' 
             }
         }
 
@@ -232,12 +232,12 @@ class PlayerElement {
         function mute(){
             if(soundImg.getAttribute("muted") === "false") {
                 soundImg.setAttribute("muted", "true")
-                soundImg.src = '/assets/icons/sound.svg'
+                soundImg.src = 'ukranime/assets/icons/sound.svg'
                 video.volume = document.querySelector("input[name=volume]").value
             }
             else {
                 soundImg.setAttribute("muted", "false")
-                soundImg.src = '/assets/icons/sound_muted.svg'
+                soundImg.src = 'ukranime/assets/icons/sound_muted.svg'
                 video.volume = 0
             }
         }

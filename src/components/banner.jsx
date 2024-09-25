@@ -62,7 +62,7 @@ export default function Banner(props) {
   ) : null;
 
   const genres = bannerData.Genres.map((genre, index) => (
-    <Link key={index} className="genre" to={`/List/${genre}`}>
+    <Link key={index} className="genre" to={`/${process.env.REACT_APP_FRONT_URL}/List/${genre}`}>
       {genre}
     </Link>
   ));

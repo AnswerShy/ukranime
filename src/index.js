@@ -18,9 +18,9 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path='/' element={<Layout/>}>
-          <Route index path="/" element={<Home />} /> {/* Home page */}
-          <Route path="/List" element={<AnimeList />}/> {/* Anime list page */}
-          <Route path="/Anime/:title" element={<Anime />} /> {/* Anime page */}
+          <Route index path={`${process.env.REACT_APP_FRONT_URL}/`} element={<Home />} /> {/* Home page */}
+          <Route path={`${process.env.REACT_APP_FRONT_URL}/List`} element={<AnimeList />}/> {/* Anime list page */}
+          <Route path={`${process.env.REACT_APP_FRONT_URL}/Anime/:title`} element={<Anime />} /> {/* Anime page */}
       </Route>
       <Route path="*" element={<NoPage />}/>  {/* Not found page */}
     </Routes>
