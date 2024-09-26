@@ -9,7 +9,7 @@ export default function Anime() {
     return (
         <>
             <Banner title={title}/>
-            <Player title={title}/>
+            <Player title={title} assetsUrl={process.env.REACT_APP_FRONT_URL}/>
         </>
     );
 }

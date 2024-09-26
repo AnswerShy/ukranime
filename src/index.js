@@ -17,7 +17,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Layout/>}>
+      <Route path={`${process.env.REACT_APP_FRONT_URL}/`} element={<Layout/>}>
           <Route index path={`${process.env.REACT_APP_FRONT_URL}/`} element={<Home />} /> {/* Home page */}
           <Route path={`${process.env.REACT_APP_FRONT_URL}/List`} element={<AnimeList />}/> {/* Anime list page */}
           <Route path={`${process.env.REACT_APP_FRONT_URL}/Anime/:title`} element={<Anime />} /> {/* Anime page */}

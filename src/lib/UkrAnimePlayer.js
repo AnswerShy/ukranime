@@ -5,10 +5,13 @@ hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) { //quality video dete
     var levels = hls.levels;
 });
 
-let coockieWatch, currentEpisode, currentTitle;
+let coockieWatch, currentEpisode, currentTitle, baseAssetsUrl;
+
+
 
 class PlayerElement {
-    setup() {
+    setup(assetsUrl) {
+        baseAssetsUrl = assetsUrl;
         const player = document.createElement("div");
         player.id = "playerFrame";
 
@@ -30,14 +33,14 @@ class PlayerElement {
         controls.className = "controls";
 
         const playIcon = document.createElement("img");
-        playIcon.src = "ukranime/assets/icons/play.svg";
+        playIcon.src = `${baseAssetsUrl}/assets/icons/play.svg`;
         playIcon.className = "play-icon";
 
         const soundControl = document.createElement("div");
         soundControl.id = "sound";
 
         const soundIcon = document.createElement("img");
-        soundIcon.src = "ukranime/assets/icons/sound.svg";
+        soundIcon.src = `${baseAssetsUrl}/assets/icons/sound.svg`;
         soundIcon.className = "soundImg";
         soundIcon.setAttribute("muted", "false");
 
@@ -57,7 +60,7 @@ class PlayerElement {
         timeDisplay.id = "time";
 
         const paramsIcon = document.createElement("img");
-        paramsIcon.src = "ukranime/assets/icons/options.svg";
+        paramsIcon.src = `${baseAssetsUrl}/assets/icons/options.svg`;
         paramsIcon.id = "params";
 
         const paramsMenu = document.createElement("div");
@@ -104,7 +107,7 @@ class PlayerElement {
         speedControl.appendChild(speedSlider);
 
         const fullscreenButton = document.createElement("img");
-        fullscreenButton.src = "ukranime/assets/icons/fullscreen.svg";
+        fullscreenButton.src = `${baseAssetsUrl}/assets/icons/fullscreen.svg`;
         fullscreenButton.className = "fullscreen-icon";
 
         const progressBar = document.createElement("input");
@@ -202,11 +205,11 @@ class PlayerElement {
         function playOrPause() {
             if(video.paused) {
                 video.play()
-                playIcon.src = 'urkanime/assets/icons/pause.svg'
+                playIcon.src = `${baseAssetsUrl}/assets/icons/pause.svg`
             }
             else {
                 video.pause()
-                playIcon.src = 'ukranime/assets/icons/play.svg' 
+                playIcon.src = `${baseAssetsUrl}/assets/icons/play.svg` 
             }
         }
 
@@ -232,12 +235,12 @@ class PlayerElement {
         function mute(){
             if(soundImg.getAttribute("muted") === "false") {
                 soundImg.setAttribute("muted", "true")
-                soundImg.src = 'ukranime/assets/icons/sound.svg'
+                soundImg.src = `${baseAssetsUrl}/icons/sound.svg`
                 video.volume = document.querySelector("input[name=volume]").value
             }
             else {
                 soundImg.setAttribute("muted", "false")
-                soundImg.src = 'ukranime/assets/icons/sound_muted.svg'
+                soundImg.src = `${baseAssetsUrl}/icons/sound_muted.svg`
                 video.volume = 0
             }
         }
