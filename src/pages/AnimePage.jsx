@@ -5,11 +5,12 @@ import Banner from "../components/banner";
 import Player from "../components/Player";
 
 export default function Anime() {
-    const {title} = useParams(); 
+    const {title} = useParams();
+    
     return (
         <>
-            <Banner title={title}/>
-            <Player title={title} assetsUrl={process.env.REACT_APP_FRONT_URL}/>
+            <Banner title={title} bg={true}/>
+            <Player title={title}/>
         </>
     );
 }

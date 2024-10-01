@@ -25,7 +25,7 @@ export default function AnimeList(){
         bg-opacity="0.1"
         speed="1.4"
         color="white" 
-    ></l-zoomies>; 
+        ></l-zoomies>; 
     }
     
     const title = titles.map((e, index) => (

@@ -7,8 +7,9 @@ import createBackground from '../lib/creeping_line_animation.js'
 export default function Banner(props) {
   const [bannerData, setBannerData] = useState(null); 
   const [error, setError] = useState(null);
+  const isBG = props.bg ? true : props.bg;
 
-  const bg = new createBackground();
+  const bg = isBG && new createBackground()
 
   useEffect(() => {
     fetch(`https://ukranime-backend.fly.dev/api/anime_info?title=${props.title}`)
@@ -29,18 +30,7 @@ export default function Banner(props) {
   }, []); 
   
   useEffect(() => {
-    const section = document.querySelector("body")
-    const previousBG = document.querySelectorAll(".ticker-row")
-    if(section && previousBG) {
-      previousBG.forEach(e => e.remove())
-      bg.start(props.title, section, 9, 128)
-    }
-    else if (section) {
-      bg.start(props.title, section, 9, 128)
-    }
-    else {
-      // console.log(section)
-    }
+    isBG && bg.start(props.title, document.querySelector("#root"), 9, 128)
   }, [props.title])
 
   if (error) {
@@ -69,7 +59,7 @@ export default function Banner(props) {
 
   return (
     <>
-      <section id="info">
+      <section className="Banner" title={props.title}>
         {bannerImage}
         <div id="info" className='container'>
           <p className="title-banner grid-item" >{bannerData.Title}</p>

@@ -20,7 +20,7 @@ function setUpBG (speed, fontsize, textcolor, oneline) {
     Speed = speed ? speed : 7
     textColor = textcolor ? textcolor : rootStyles.getPropertyValue('--textProcentTransp').trim();
     try {
-        styleSheet.insertRule(`.ticker-row {z-index: -1; background-repeat: repeat; animation-duration: ${Speed}s; animation-timing-function: linear; animation-iteration-count: infinite; position: ${isBlock}; height: 100%; width: 100%; }`, styleSheet.cssRules.length);
+        styleSheet.insertRule(`.ticker-row {z-index: -1; background-repeat: repeat; animation-duration: ${Speed}s; animation-timing-function: linear; animation-iteration-count: infinite; position: ${isBlock}; height: 100%; width: 100%; transition: 1s ease; }`, styleSheet.cssRules.length);
         styleSheet.insertRule('.ticker-row:nth-child(2n) { animation-name: ticker-left; }', styleSheet.cssRules.length);
         styleSheet.insertRule('.ticker-row:nth-child(odd) { animation-name: ticker-right; }', styleSheet.cssRules.length);
     } 
@@ -107,6 +107,9 @@ export default class createBackground {
     }
 
     start(textContent, domElement, speed, fontsize, textcolor, oneline){
+        if(document.querySelectorAll(".ticker-row")) {
+            document.querySelectorAll(".ticker-row").forEach(e => e.remove())
+        }
         setUpBG(speed, fontsize, textcolor, oneline)
         if(oneline) {
             this.createRow(textContent, 0, domElement)

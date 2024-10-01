@@ -1,3 +1,9 @@
+section.Banner {
+    position: absolute;
+    width: -webkit-fill-available;
+    height: 89svh;
+}
+
 .release_genres {
     display: flex;
     flex-wrap: wrap;

@@ -273,15 +273,30 @@ class PlayerElement {
         }
 
         //PARAMS MENU
-        document.querySelector("#params").addEventListener("click", () => {
-            if(document.querySelector("#paramsMenu").classList.contains("hiden")) {
-              document.querySelector("#paramsMenu").classList.remove("hiden")
-              document.querySelector("#speed").classList.add("hiden")
-              document.querySelector("#qualitySelect").classList.add("hiden")
+        const elementMap = {
+            "#params": "menu",
+            "#qualityParamsSelect": "quality",
+            "#speedParamsSelect": "speed"
+        };
+        
+        const paramMenuSwitcher = (whichOne) => {
+            const elements = {
+                menu: document.querySelector("#paramsMenu"),
+                quality: document.querySelector("#qualitySelect"),
+                speed: document.querySelector("#speed")
+            }
+
+            if (elements[whichOne] && elements[whichOne].classList.contains("hiden")) {
+                Object.values(elements).forEach(el => el.classList.add("hiden"));
+                elements[whichOne].classList.remove("hiden")
             }
             else {
-              document.querySelector("#paramsMenu").classList.add("hiden")  
+                Object.values(elements).forEach(el => el.classList.add("hiden"));
             }
+        }
+
+        Object.entries(elementMap).forEach(([selector, param]) => {
+            document.querySelector(selector).addEventListener("click", () => { paramMenuSwitcher(param) })
         })
 
         //Video progress going

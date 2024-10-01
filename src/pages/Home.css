@@ -32,3 +32,26 @@ section {
       flex-direction: column;
     }
 }
+
+.containerOfNews {
+    height: 88svh;
+    width: 100%;
+    position: relative;
+}
+
+.containerOfNews .Banner {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.containerOfNews .Banner.here {
+    opacity: 1 !important;
+}
+.containerOfNews .Banner.here > * {
+    opacity: 1 !important;
+}
+
+.sticky-text-xD {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+}

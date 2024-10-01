@@ -9,8 +9,8 @@ export default function Player(props) {
 
     useEffect(() => {
       const playerElementWork = new PlayerElement();
-      const { episodeName, player, episodes } = playerElementWork.setup(props.assetsUrl);
-      console.log(`lol ${props.assetsUrl}`)
+      const { episodeName, player, episodes } = playerElementWork.setup(process.env.REACT_APP_FRONT_URL);
+      console.log(`lol ${process.env.REACT_APP_FRONT_URL}`)
 
       if (playerRef.current) {
         const videoFrame = playerRef.current.querySelector("video");

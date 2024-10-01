@@ -6,7 +6,6 @@ const AnimeCard = ({ poster, title, episodes, genres, release }) => {
         <p key={index}>{e}</p>
     ))
     const link = `${process.env.REACT_APP_FRONT_URL}/Anime/${title}`
-    console.log(link)
     return (
         <Link 
           to={link} 
