@@ -1,6 +1,6 @@
 import './Layout.css'
 import { Outlet, NavLink } from "react-router-dom";
-
+import "../fonts/GochiHand-Regular.ttf"
 
 export default function Layout() {
     return (

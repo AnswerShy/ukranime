@@ -1,6 +1,7 @@
 section.Banner {
     position: absolute;
     width: -webkit-fill-available;
+    width: -moz-available;
     height: 89svh;
 }
 
@@ -11,6 +12,7 @@ section.Banner {
     align-items: center;
     margin: 0;
     width: -webkit-fill-available;
+    width: -moz-available;
     column-gap: 4.5%;
     font-size: 45px;
 }
@@ -41,6 +43,7 @@ p.description {
 img.banner {
     position: absolute;
     height: -webkit-fill-available;
+    height: -moz-available;
     right: 0;
     bottom: -5px;
     z-index: 1;

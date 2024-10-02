@@ -1,7 +1,10 @@
 export default function selectSlide(slide) {
     try {
-        const curSection = document.querySelector(".here") ? document.querySelector(".here") : document.querySelector(".Banner").classList.add("here");
-        const nextSection = curSection.nextElementSibling ? curSection.nextElementSibling : document.querySelector(".Banner");
+        var curSection = document.querySelector(".here") ? document.querySelector(".here") : document.querySelector(".Banner");
+        if(curSection && !curSection.classList.contains("here")) {
+            curSection.classList.add("here")
+        }
+        var nextSection = curSection.nextElementSibling ? curSection.nextElementSibling : document.querySelector(".Banner");
 
         if (nextSection && curSection) {
             setTimeout(() => {

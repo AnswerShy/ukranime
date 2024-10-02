@@ -3,6 +3,7 @@ section.player {
     flex-wrap: nowrap;
     flex-direction: column;
     row-gap: 0;
+    margin-top: 100svh;
 }
 
 div#playerFrame {
@@ -44,6 +45,7 @@ div#playerFrame {
     position: absolute;
     bottom: 0;
     width: -webkit-fill-available;
+    width: -moz-available;
 }
 
 #time {

@@ -52,14 +52,14 @@ export default function Banner(props) {
   ) : null;
 
   const genres = bannerData.Genres.map((genre, index) => (
-    <Link key={index} className="genre" to={`/${process.env.REACT_APP_FRONT_URL}/List/${genre}`}>
+    <Link key={index} className="genre" to={`${process.env.REACT_APP_FRONT_URL}/List/${genre}`}>
       {genre}
     </Link>
   ));
 
   return (
     <>
-      <section className="Banner" title={props.title}>
+      <section className="Banner" title={props.title} onLoad={props.onLoad}>
         {bannerImage}
         <div id="info" className='container'>
           <p className="title-banner grid-item" >{bannerData.Title}</p>
