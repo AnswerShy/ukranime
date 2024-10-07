@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import './banner.css';
-
-import createBackground from '../lib/creeping_line_animation.js'
+import { createBackground, fontBase64 } from '../utils/basic.js';
 
 export default function Banner(props) {
   const [bannerData, setBannerData] = useState(null); 
@@ -30,7 +29,7 @@ export default function Banner(props) {
   }, []); 
   
   useEffect(() => {
-    isBG && bg.start(props.title, document.querySelector("#root"), 9, 128)
+    isBG && bg.start(props.title, document.querySelector("#root"), 9, 128, null, null, fontBase64())
   }, [props.title])
 
   if (error) {

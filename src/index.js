@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import './index.css';
-import "./fonts/GochiHand-Regular.ttf"
-
 
 import Layout from './components/Layout';
 import NoPage from './pages/NoPage';
@@ -12,10 +10,6 @@ import NoPage from './pages/NoPage';
 import Home from './pages/Home';
 import Anime from './pages/AnimePage';
 import AnimeList from './pages/AnimeList';
-
-if(navigator.userAgent.includes("Firefox")) {
-  alert("Firefox user detected. sorry, but there are shitty place for you, better come with chrome")
-}
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

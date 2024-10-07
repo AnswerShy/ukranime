@@ -1,10 +1,10 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+import { createBackground, fontBase64 } from '../utils/basic.js';
 
 import './Home.css'
 import Banner from "../components/banner";
 
-import createBackground from '../lib/creeping_line_animation.js'
 import selectSlide from '../lib/bannerSlider.js';
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
     
     useEffect(() => {
         selectSlide();
-        bg.start("home", document.querySelector("#root"), 9, 128)
+        bg.start("home", document.querySelector("#root"), 9, 128, null, null, fontBase64())
     }, [isLastBannerVisible])
     
     const handleBannerLoad = () => {

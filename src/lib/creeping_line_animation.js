@@ -3,7 +3,7 @@ const rootStyles = getComputedStyle(document.documentElement);
 var textColor = rootStyles.getPropertyValue('--textProcentTransp').trim();
 var fontSize = 64
 var Speed = 7
-var isBlock = 'absolute'
+var isBlock = 'fixed'
 let styleSheet;
 
 function setUpBG (speed, fontsize, textcolor, oneline) {
@@ -11,7 +11,7 @@ function setUpBG (speed, fontsize, textcolor, oneline) {
     document.head.appendChild(style);
     styleSheet = style.sheet;
 
-    isBlock = oneline ? 'block' : 'absolute'
+    isBlock = oneline ? 'block' : 'fixed'
     fontSize = fontsize ? fontsize : 64
     Speed = speed ? speed : 7
     textColor = textcolor ? textcolor : rootStyles.getPropertyValue('--textProcentTransp').trim();
@@ -26,12 +26,13 @@ function setUpBG (speed, fontsize, textcolor, oneline) {
 }
 
 export default class createBackground {
-    constructor (textContent, domElement, speed, fontsize, textcolor) {
+    constructor (textContent, domElement, speed, fontsize, textcolor, fontBase) {
         this.textContent = textContent;
         this.domElement = domElement;
         this.speed = speed;
         this.fontsize = fontsize;
         this.textcolor = textcolor;
+        this.fontBase = fontBase
     }
 
     createKeyframes(name, from, to) {
@@ -48,7 +49,7 @@ export default class createBackground {
         styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
     }
 
-    async createSVG(textContent, index) {
+    createSVG(textContent, fontBase) {
         const svg = document.createElementNS(svgNS, "svg");
         svg.setAttribute("xmlns", svgNS);
         const defs = document.createElement("defs")
@@ -60,18 +61,13 @@ export default class createBackground {
         svg.appendChild(defs)
         try {
             styleSVG.textContent = `
-                @font-face {
-                    font-family: 'Gochi Hand';
-                    font-style: normal;
-                    font-weight: 400;
-                    font-display: swap;
-                    src: url('https://fonts.gstatic.com/s/gochihand/v23/hES06XlsOjtJsgCkx1Pkfon_-w.woff2') format('woff2');
-                }
                 text {
                     font-size: ${fontSize}px;
                     font-family: 'Gochi Hand';
                     fill: ${textColor};
                 }
+                ${fontBase}
+
             `;
         } catch (e) {
             console.log(e);
@@ -95,31 +91,23 @@ export default class createBackground {
 
         const svgString = new XMLSerializer().serializeToString(svg);
 
-        const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-        
-        return new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onloadend = function() {
-                const result = reader.result
-                resolve([result, bbox.width, bbox.height]);
-            };
-            reader.readAsDataURL(blob);
-        })
+        const result = `data:image/svg+xml;utf8, ${svgString.toString().replace(/"/g, "'").replace(/\n/g, '')}`
+        return ([result, bbox.width, bbox.height]);
     }
 
-    async createRow(textContent, index, domElement) {
+    async createRow(textContent, index, domElement, fontBase) {
         const tickerRow = document.createElement('div');
         tickerRow.classList.add('ticker-row');
 
-        const svgInfo = await this.createSVG(textContent, index)
+        const svgInfo = await this.createSVG(textContent, fontBase)
 
         const animationName = `ticker-${index}`;
         const fromPosition = '0 0';
         const toPosition = index % 2 === 0 ? `-${svgInfo[1]}px 0` : `${svgInfo[1]}px 0`;
         this.createKeyframes(animationName, fromPosition, toPosition);
-    
-        tickerRow.style.top = `-${(svgInfo[2]*index)/2}px`;
-        tickerRow.style.backgroundImage = `url('${svgInfo[0]}')`;
+        
+        tickerRow.style.top = `${(svgInfo[2]*index)/2}px`;
+        tickerRow.style.backgroundImage = `url("${svgInfo[0]}")`;
         tickerRow.style.animationName = animationName;
     
         try {
@@ -131,17 +119,17 @@ export default class createBackground {
 
     }
 
-    start(textContent, domElement, speed, fontsize, textcolor, oneline){
+    start(textContent, domElement, speed, fontsize, textcolor, oneline, fontBase){
         if(document.querySelectorAll(".ticker-row")) {
             document.querySelectorAll(".ticker-row").forEach(e => e.remove())
         }
         setUpBG(speed, fontsize, textcolor, oneline)
         if(oneline) {
-            this.createRow(textContent, 0, domElement)
+            this.createRow(textContent, 0, domElement, fontBase)
         }
         else {
             for(var i = 0; i < 2; i++){
-            this.createRow(textContent, i, domElement)
+            this.createRow(textContent, i, domElement, fontBase)
             }
         }
         

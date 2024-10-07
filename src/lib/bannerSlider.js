@@ -1,19 +1,18 @@
-export default function selectSlide(slide) {
-    try {
-        var curSection = document.querySelector(".here") ? document.querySelector(".here") : document.querySelector(".Banner");
-        if(curSection && !curSection.classList.contains("here")) {
-            curSection.classList.add("here")
-        }
-        var nextSection = curSection.nextElementSibling ? curSection.nextElementSibling : document.querySelector(".Banner");
+export default function selectSlide() {
+    if(document.querySelectorAll(".Banner").length > 1){
+        try {
+            const curSection = document.querySelector(".here") || document.querySelector(".Banner");
+            const nextSection = curSection.nextElementSibling || document.querySelector(".Banner");
 
-        if (nextSection && curSection) {
-            setTimeout(() => {
+            if (curSection && nextSection) {
                 curSection.classList.remove("here");
                 nextSection.classList.add("here");
-                selectSlide();
-            }, 5000);
+            }
+
+            setTimeout(selectSlide, 2500);
+
+        } catch (e) {
+            console.log(e);
         }
-    } catch (e) {
-        console.log(e);
     }
 }
