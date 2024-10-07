@@ -91,7 +91,8 @@ export default class createBackground {
 
         const svgString = new XMLSerializer().serializeToString(svg);
 
-        const result = `data:image/svg+xml;utf8, ${svgString.toString().replace(/"/g, "'").replace(/\n/g, '')}`
+        const result = `data:image/svg+xml;utf8, ${svgString.toString().replace(/"/g, "'").replace(/\n/g, '').replace(/\t/g, '').replace(/\s{2,}/g, ' ')}`
+        console.log(result)
         return ([result, bbox.width, bbox.height]);
     }
 
