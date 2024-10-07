@@ -60,20 +60,14 @@ export default class createBackground {
         defs.appendChild(styleSVG);
         svg.appendChild(defs)
         try {
-            styleSVG.textContent = `
-                text {
-                    font-size: ${fontSize}px;
-                    font-family: 'Gochi Hand';
-                    fill: ${textColor};
-                }
-                ${fontBase}
-
-            `;
+            styleSVG.textContent = `${fontBase}`;
         } catch (e) {
             console.log(e);
         }
-
         const text = document.createElementNS(svgNS, "text");
+        text.setAttribute("font-size", fontSize);
+        text.setAttribute("fill", textColor);
+        text.setAttribute("font-family", 'Gochi Hand')
         text.textContent = textContent;
 
         svg.appendChild(text);
@@ -108,7 +102,7 @@ export default class createBackground {
         this.createKeyframes(animationName, fromPosition, toPosition);
         
         tickerRow.style.top = `${(svgInfo[2]*index)/2}px`;
-        tickerRow.style.backgroundImage = `url("${svgInfo[0]}")`;
+        tickerRow.style.backgroundImage = `url("${decodeURIComponent(svgInfo[0])}")`;
         tickerRow.style.animationName = animationName;
     
         try {
