@@ -1,6 +1,5 @@
 const svgNS = "http://www.w3.org/2000/svg";
-const rootStyles = getComputedStyle(document.documentElement);
-var textColor = rootStyles.getPropertyValue('--textProcentTransp').trim();
+var textColor;
 var fontSize = 64
 var Speed = 7
 var isBlock = 'fixed'
@@ -14,7 +13,8 @@ function setUpBG (speed, fontsize, textcolor, oneline) {
     isBlock = oneline ? 'block' : 'fixed'
     fontSize = fontsize ? fontsize : 64
     Speed = speed ? speed : 7
-    textColor = textcolor ? textcolor : rootStyles.getPropertyValue('--textProcentTransp').trim();
+    textColor = textcolor ? textcolor : "rgb(255,0,255, 0.02)";
+    console.log(textColor)
     try {
         styleSheet.insertRule(`.ticker-row {z-index: -1; background-repeat: repeat; animation-duration: ${Speed}s; animation-timing-function: linear; animation-iteration-count: infinite; position: ${isBlock}; height: 100%; width: 100%; transition: 1s ease; }`, styleSheet.cssRules.length);
         styleSheet.insertRule('.ticker-row:nth-child(2n) { animation-name: ticker-left; }', styleSheet.cssRules.length);
@@ -66,7 +66,7 @@ export default class createBackground {
         }
         const text = document.createElementNS(svgNS, "text");
         text.setAttribute("font-size", fontSize);
-        text.setAttribute("fill", textColor);
+        text.setAttribute("fill", `${textColor}`);
         text.setAttribute("font-family", 'Gochi Hand')
         text.textContent = textContent;
 
@@ -86,7 +86,7 @@ export default class createBackground {
         const svgString = new XMLSerializer().serializeToString(svg);
 
         const result = `data:image/svg+xml;utf8, ${svgString.toString().replace(/"/g, "'").replace(/\n/g, '').replace(/\t/g, '').replace(/\s{2,}/g, ' ')}`
-        console.log(result)
+        // console.log(result)
         return ([result, bbox.width, bbox.height]);
     }
 

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
-import { createBackground, fontBase64 } from '../utils/basic.js';
+import { createBackground, fontBase64, bgTextColor } from '../utils/basic.js';
 
 import './Home.css'
 import Banner from "../components/banner";
@@ -12,10 +12,9 @@ export default function Home() {
 
     const bg = new createBackground();
     
-    
     useEffect(() => {
         selectSlide();
-        bg.start("home", document.querySelector("#root"), 9, 128, null, null, fontBase64())
+        bg.start("home", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
     }, [isLastBannerVisible])
     
     const handleBannerLoad = () => {

@@ -1,10 +1,10 @@
 :root {
-  --BG: #1E1E1E;
-  --BG2: #595959;
-  --AccentColor: #7E7E7E;
-  --AccentColorTined: #2F2F2F;
-  --AccentColorTransparent: #2f2f2fcb;
-  --AccentColorSecond: #2F2F2F;
+  --BG: rgb(30, 30, 30);
+  --BG2: rgb(89, 89, 89);
+  --AccentColor: rgb(126, 126, 126);
+  --AccentColorTined: rgb(47, 47, 47);
+  --AccentColorTransparent: rgba(47, 47, 47, 0.796);
+  --AccentColorSecond: rgb(47, 47, 47);
   --border: 12px;
   --textHalfTransp: rgb(255, 255, 255, 50%);
   --textProcentTransp: rgba(255, 255, 255, 0.02);

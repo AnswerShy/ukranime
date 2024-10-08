@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AnimeCard from "../components/AnimeCard";
-import { createBackground, fontBase64 } from '../utils/basic.js';
+import { createBackground, fontBase64, bgTextColor } from '../utils/basic.js';
 
 export default function AnimeList(){
     const [titles, setTitles] = useState(null);
 
     const bg = new createBackground();
-    bg.start("list", document.querySelector("#root"), 9, 128, null, null, fontBase64())
+    bg.start("list", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
 
     useEffect(() => {
         fetch('https://ukranime-backend.fly.dev/api/anime_info')
