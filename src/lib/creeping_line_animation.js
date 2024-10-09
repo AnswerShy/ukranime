@@ -5,7 +5,7 @@ var Speed = 7
 var isBlock = 'fixed'
 let styleSheet;
 
-function setUpBG (speed, fontsize, textcolor, oneline) {
+function setUpBG (speed, fontsize, textcolorParam, oneline) {
     const style = document.createElement('style');
     document.head.appendChild(style);
     styleSheet = style.sheet;
@@ -13,8 +13,22 @@ function setUpBG (speed, fontsize, textcolor, oneline) {
     isBlock = oneline ? 'block' : 'fixed'
     fontSize = fontsize ? fontsize : 64
     Speed = speed ? speed : 7
-    textColor = textcolor ? textcolor : "rgb(255,0,255, 0.02)";
-    console.log(textColor)
+    textColor = textcolorParam ? textcolorParam : "rgb(255,0,255, 0.02)";
+    
+    if(textColor.includes("#")) 
+    {
+        const hex = textColor.slice(1);
+        console.log(hex, hex.length)
+
+        const r = parseInt(hex.substring(0, 2), 16)
+        const g = parseInt(hex.substring(2, 4), 16)
+        const b = parseInt(hex.substring(4, 6), 16)
+
+        const a = hex.length == 8 ? parseInt(hex.substring(6, 8), 16)/255 : 1
+
+        textColor = `rgb(${r},${g},${b},${a})`
+    }
+
     try {
         styleSheet.insertRule(`.ticker-row {z-index: -1; background-repeat: repeat; animation-duration: ${Speed}s; animation-timing-function: linear; animation-iteration-count: infinite; position: ${isBlock}; height: 100%; width: 100%; transition: 1s ease; }`, styleSheet.cssRules.length);
         styleSheet.insertRule('.ticker-row:nth-child(2n) { animation-name: ticker-left; }', styleSheet.cssRules.length);
