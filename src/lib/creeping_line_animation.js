@@ -2,7 +2,7 @@ const svgNS = "http://www.w3.org/2000/svg";
 var textColor;
 var fontSize = 64
 var Speed = 7
-var isBlock = 'fixed'
+var Position = 'absolute'
 let styleSheet;
 
 function setUpBG (speed, fontsize, textcolorParam, oneline) {
@@ -10,7 +10,7 @@ function setUpBG (speed, fontsize, textcolorParam, oneline) {
     document.head.appendChild(style);
     styleSheet = style.sheet;
 
-    isBlock = oneline ? 'block' : 'fixed'
+    Position = oneline ? oneline : 'absolute'
     fontSize = fontsize ? fontsize : 64
     Speed = speed ? speed : 7
     textColor = textcolorParam ? textcolorParam : "rgb(255,0,255, 0.02)";
@@ -30,7 +30,7 @@ function setUpBG (speed, fontsize, textcolorParam, oneline) {
     }
 
     try {
-        styleSheet.insertRule(`.ticker-row {z-index: -1; background-repeat: repeat; animation-duration: ${Speed}s; animation-timing-function: linear; animation-iteration-count: infinite; position: ${isBlock}; height: 100%; width: 100%; transition: 1s ease; }`, styleSheet.cssRules.length);
+        styleSheet.insertRule(`.ticker-row {z-index: -1; background-repeat: repeat; animation-duration: ${Speed}s; animation-timing-function: linear; animation-iteration-count: infinite; position: ${Position}; height: 90svh; width: 100%; transition: 1s ease; }`, styleSheet.cssRules.length);
         styleSheet.insertRule('.ticker-row:nth-child(2n) { animation-name: ticker-left; }', styleSheet.cssRules.length);
         styleSheet.insertRule('.ticker-row:nth-child(odd) { animation-name: ticker-right; }', styleSheet.cssRules.length);
     } 

@@ -160,6 +160,7 @@ input.slider {
 }
 
 span.episodeName {
+    margin-top: 16px;
     font-size: 50px;
 }
 

@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
+
 import { createBackground, fontBase64, bgTextColor } from '../utils/basic.js';
+import scrollBG from "../utils/basic.js";
 
 import './Home.css'
 import Banner from "../components/banner";
@@ -15,6 +17,7 @@ export default function Home() {
     useEffect(() => {
         selectSlide();
         bg.start("home", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
+        scrollBG();
     }, [isLastBannerVisible])
     
     const handleBannerLoad = () => {
