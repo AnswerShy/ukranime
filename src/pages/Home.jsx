@@ -7,20 +7,27 @@ import scrollBG from "../utils/basic.js";
 import './Home.css'
 import Banner from "../components/banner";
 
-import selectSlide from '../lib/bannerSlider.js';
-
 export default function Home() {
     const [isLastBannerVisible, setIsLastBannerVisible] = useState(false);
 
     const bg = new createBackground();
-    
+
     useEffect(() => {
-        selectSlide();
+        import('../lib/bannerSlider.js')
+            .then(({ default: selectSlide }) => 
+            {
+                setTimeout(selectSlide, 2500)
+            })
+            .catch(e => console.log("Failed to load selectSlide", e));
+    }, [isLastBannerVisible])
+
+    useEffect(() => {
         bg.start("home", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
         scrollBG();
     }, [isLastBannerVisible])
     
     const handleBannerLoad = () => {
+        document.querySelector(".Banner").classList.add("here")
         setIsLastBannerVisible(true)
     }
     

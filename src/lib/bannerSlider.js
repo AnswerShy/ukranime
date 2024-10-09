@@ -15,4 +15,8 @@ export default function selectSlide() {
             console.log(e);
         }
     }
+    else {
+        console.error("banners dont load");
+        return;
+    }
 }
