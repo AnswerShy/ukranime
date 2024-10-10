@@ -5,38 +5,16 @@ import { createBackground, fontBase64, bgTextColor } from '../utils/basic.js';
 import scrollBG from '../utils/basic.js';
 
 export default function Banner(props) {
-  const [bannerData, setBannerData] = useState(null); 
-  const [error, setError] = useState(null);
+  const bannerData = props.bannerData
+  console.log(bannerData)
   const isBG = props.bg ? true : props.bg;
 
   const bg = isBG && new createBackground()
-
-  useEffect(() => {
-    fetch(`https://ukranime-backend.fly.dev/api/anime_info?title=${props.title}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(data => {
-        setBannerData(data[0]);
-      })
-      .catch(error => {
-        setError(error.message);
-      });
-
-    
-  }, []); 
   
   useEffect(() => {
     isBG && bg.start(props.title, document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
     scrollBG()
   }, [props.title])
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
 
   if (!bannerData) {
     return <l-zoomies
@@ -60,7 +38,7 @@ export default function Banner(props) {
 
   return (
     <>
-      <section className="Banner" title={props.title} onLoad={props.onLoad}>
+      <section className={props.customClass ? props.customClass : "Banner"} title={props.title} onLoad={props.onLoad}>
         {bannerImage}
         <div id="info" className='container'>
           <p className="title-banner grid-item" >{bannerData.Title}</p>

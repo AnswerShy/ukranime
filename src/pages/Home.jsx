@@ -5,39 +5,37 @@ import { createBackground, fontBase64, bgTextColor } from '../utils/basic.js';
 import scrollBG from "../utils/basic.js";
 
 import './Home.css'
-import Banner from "../components/banner";
+import Slider from "../components/Slider.jsx";
+
 
 export default function Home() {
-    const [isLastBannerVisible, setIsLastBannerVisible] = useState(false);
+    var [dataSlider, setDataSlider] = useState([]);
 
+    useEffect(() => {
+        fetch(`https://ukranime-backend.fly.dev/api/anime_info`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            const dataToFetch = data.slice(0, 3)
+            setDataSlider(dataToFetch)
+        })
+        .catch(error => {
+            console.log(error)
+        });
+    }, [])
+    
     const bg = new createBackground();
+    bg.start("home", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
 
-    useEffect(() => {
-        import('../lib/bannerSlider.js')
-            .then(({ default: selectSlide }) => 
-            {
-                setTimeout(selectSlide, 2500)
-            })
-            .catch(e => console.log("Failed to load selectSlide", e));
-    }, [isLastBannerVisible])
-
-    useEffect(() => {
-        bg.start("home", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
-        scrollBG();
-    }, [isLastBannerVisible])
-    
-    const handleBannerLoad = () => {
-        document.querySelector(".Banner").classList.add("here")
-        setIsLastBannerVisible(true)
-    }
-    
     return (
         <>
-            <div className="containerOfNews">
-                <Banner title="Samurai%20Champloo" bg={false} slide={true}/>
-                <Banner title="Ergo%20Proxy" bg={false}/>
-                <Banner title="Monster" bg={false} onLoad={handleBannerLoad}/>
-            </div>
+            {
+                dataSlider.length > 0 ? (<Slider components={dataSlider} />) : (<l-zoomies size="80" stroke="5" bg-opacity="0.1" speed="1.4" color="white"></l-zoomies>)
+            }
             
             <p className="sticky-text-xD">HOME</p>
         </>

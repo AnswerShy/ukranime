@@ -18,7 +18,6 @@ function setUpBG (speed, fontsize, textcolorParam, oneline) {
     if(textColor.includes("#")) 
     {
         const hex = textColor.slice(1);
-        console.log(hex, hex.length)
 
         const r = parseInt(hex.substring(0, 2), 16)
         const g = parseInt(hex.substring(2, 4), 16)
