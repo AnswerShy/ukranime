@@ -4,3 +4,47 @@ header {
     background-color: rgba(0, 0, 0, 0);
     font-size: 70px;
 }
+
+.MenuButtonHeader {
+    display: none;
+}
+
+
+
+@media (max-width: 568px) {
+    .MenuButtonHeader {
+        display: block;
+        margin: 0;
+        height: 50px;
+        padding-left: 50px;
+    }
+    header {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        position: absolute;
+
+        height: 100%;
+        width: 0;
+
+        padding: 0;
+        background-color: var(--BG);
+        z-index: 9999;
+        transition: visibility 1s, opacity 0.1s, width 0.2s linear;
+        opacity: 0;
+        visibility: hidden;
+    }
+    header a{
+        margin: 0!important;
+    }
+    header separator {
+        display: none;
+    }
+    .min-disp-menu-show {
+        transition: visibility 1s, opacity 0.1s, width 0.2s linear;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+    }
+}

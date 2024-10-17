@@ -28,9 +28,6 @@ export default function Home() {
         });
     }, [])
     
-    const bg = new createBackground();
-    bg.start("home", document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
-
     return (
         <>
             {

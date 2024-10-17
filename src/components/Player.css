@@ -6,7 +6,7 @@ section.player {
     margin-top: 100svh;
 }
 
-div#playerFrame {
+#playerFrame {
     transition: 0.5s ease-out;
     width: 65%;
     position: relative;
@@ -153,7 +153,7 @@ input.slider {
 }
 
 .hiden {
-    animation: opacity 1s ease-in;
+    transition: opacity 1s ease-in;
     opacity: 0;
     display: none;
     cursor: none;
@@ -193,4 +193,10 @@ ul.episodes {
 
 .watched {
     background-color: var(--AccentColorSecond);
+}
+
+@media (max-width: 1024px) {
+    #playerFrame {
+        width: 100%;
+    }
 }

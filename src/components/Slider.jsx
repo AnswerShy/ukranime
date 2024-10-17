@@ -28,7 +28,6 @@ export default function Slider({ components }) {
     const selectSlide = (index) => {
         setActiveSlide(index)
         setSlideTrigger(false)
-        
         clearTimeout(timeoutRef.current);
         
         timeoutRef.current = setTimeout(() => {
@@ -44,6 +43,7 @@ export default function Slider({ components }) {
                     customClass={activeSlide === index ? "Banner here" : "Banner"}
                     key={index}
                     bannerData={e}
+                    nonScrol={true}
                 />
             ))}
             <span className="indicatorOfNews">

@@ -1,20 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 import './banner.css';
-import { createBackground, fontBase64, bgTextColor } from '../utils/basic.js';
-import scrollBG from '../utils/basic.js';
 
 export default function Banner(props) {
-  const bannerData = props.bannerData
-  console.log(bannerData)
-  const isBG = props.bg ? true : props.bg;
-
-  const bg = isBG && new createBackground()
-  
-  useEffect(() => {
-    isBG && bg.start(props.title, document.querySelector("#root"), 9, 128, bgTextColor, null, fontBase64())
-    scrollBG()
-  }, [props.title])
+  const bannerData = props.bannerData;
 
   if (!bannerData) {
     return <l-zoomies

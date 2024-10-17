@@ -1,12 +1,11 @@
 import Hls from 'hls.js'
 const hls = new Hls();
 
-hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) { //quality video detect
-    var levels = hls.levels;
-});
+var toggleElements = {}
 
 let coockieWatch, currentEpisode, currentTitle, baseAssetsUrl;
 
+let hideTimeOut;
 
 
 class PlayerElement {
@@ -135,6 +134,14 @@ class PlayerElement {
         player.appendChild(action);
         player.appendChild(controls);
 
+        toggleElements.soundIcon = soundIcon
+        toggleElements.playIcon = playIcon
+
+        toggleElements.controls = controls
+        toggleElements.videoFrame = player
+        toggleElements.video = video
+        toggleElements.actionDisplay = action
+
         const episodes = document.createElement("ul")
         episodes.className = "episodes"
 
@@ -156,8 +163,9 @@ class PlayerElement {
                 return res.json();
             })
             .then(data => {
+                const sortedEpisodes = data.sort((a, b) => a.Anime_Episode_Number - b.Anime_Episode_Number);
                 if(data.length > 1) {
-                    data.forEach(element => {
+                    sortedEpisodes.forEach(element => {
                         const episodes = new Episode(element.Anime_Episode_Number, element.Anime_Episode_Url, element.Anime_Episode_Name)
                         episodes.createEpisode()
                     });
@@ -189,61 +197,39 @@ class PlayerElement {
                 }
                 catch (e) {console.error(e)}
             })
+            .then(() => {
+                hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) { //quality video detect
+                    var levels = hls.levels;
+                    for (var i = 0; i < levels.length; i++) {
+                      var option = document.createElement('li');
+                      option.classList.add("qualityVar")
+                      option.value = i;
+                      option.innerHTML = levels[i].height + 'P';
+                      document.querySelector("#qualitySelect").appendChild(option);
+                    }
+                    document.querySelectorAll(".qualityVar").forEach(element => { 
+                        element.addEventListener('click', () => {
+                            hls.currentLevel = element.value
+                            console.log(hls.currentLevel)
+                        })
+                    });
+                });
+            })
             .catch(error => console.error('Fetch error:', error));
     }
 
     controls() {
         var videoDuration;
-        const videoFrame = document.querySelector("#playerFrame")
-        const video = document.querySelector("video")
-        const playIcon = document.querySelector(".play-icon")
-        const fullscreen = document.querySelector(".fullscreen-icon")
-        const soundImg = document.querySelector(".soundImg")
-        const progressBar = document.querySelector(".progress")
-        const eventDisplay = document.querySelector(".continue")
+        const video = toggleElements.video;
+        const fullscreen = document.querySelector(".fullscreen-icon");
+        const soundImg = document.querySelector(".soundImg");
+        const progressBar = document.querySelector(".progress");
 
-        function playOrPause() {
-            if(video.paused) {
-                video.play()
-                playIcon.src = `${baseAssetsUrl}/assets/icons/pause.svg`
-            }
-            else {
-                video.pause()
-                playIcon.src = `${baseAssetsUrl}/assets/icons/play.svg` 
-            }
-        }
+        [toggleElements.video, toggleElements.playIcon].forEach(e => e.addEventListener("click", playOrPause))
 
-        video.addEventListener("click", playOrPause)
-        playIcon.addEventListener("click", playOrPause)
-
-        fullscreen.addEventListener("click", () => document.fullscreenElement ? document.exitFullscreen() : videoFrame.requestFullscreen())
-
-        document.addEventListener('keydown', (event) => {
-            switch(event.key) {
-                case ' ':
-                    playOrPause();
-                    break;
-                case 'f':
-                    document.fullscreenElement ? document.exitFullscreen() : videoFrame.requestFullscreen();
-                    break;
-                
-            }
-        })
+        fullscreen.addEventListener("click", () => document.fullscreenElement ? document.exitFullscreen() : toggleElements.videoFrame.requestFullscreen())
 
         soundImg.addEventListener("click", mute)
-
-        function mute(){
-            if(soundImg.getAttribute("muted") === "false") {
-                soundImg.setAttribute("muted", "true")
-                soundImg.src = `${baseAssetsUrl}/icons/sound.svg`
-                video.volume = document.querySelector("input[name=volume]").value
-            }
-            else {
-                soundImg.setAttribute("muted", "false")
-                soundImg.src = `${baseAssetsUrl}/icons/sound_muted.svg`
-                video.volume = 0
-            }
-        }
 
         document.querySelector(".episodes").addEventListener("wheel", (e) => {
             e.preventDefault()
@@ -300,7 +286,6 @@ class PlayerElement {
         })
 
         //Video progress going
-
         video.addEventListener("timeupdate", () => {
             progressBar.value = video.currentTime;
             var timeNow;
@@ -309,7 +294,8 @@ class PlayerElement {
         
             document.querySelector("#time").innerHTML = `${timeNow} / ${videoDuration}`
 
-            saveToCoockieTime(video.currentTime)
+            if(video.currentTime > 100) saveToCoockieTime(video.currentTime);
+            
         })
 
         video.addEventListener('loadedmetadata', function () {
@@ -323,10 +309,8 @@ class PlayerElement {
             document.querySelector("#time").innerHTML = `0:00 / ${videoDuration}`
 
             coockieWatch.forEach(e => {
-                if(e.episode === currentEpisode && e.time > 200) {
-                  eventDisplay.classList.remove("hide")
-                  eventDisplay.innerHTML = `Continue from ${Math.floor(e.time/60)}:${Math.floor(e.time%60).toString().padStart(2, '0')}`
-                  eventDisplay.setAttribute("value", e.time)
+                if(e.episode === currentEpisode && e.time > 10) {
+                  video.currentTime = e.time
                 };
             });
         });
@@ -335,8 +319,6 @@ class PlayerElement {
             const episode = parseInt(currentEpisode)
             const time = parseFloat(timeCur)
             var index = coockieWatch.findIndex(ep => ep.episode === episode)
-
-            console.log(coockieWatch[index], index)
 
             if(index === -1) {
                 coockieWatch.push({ episode, time })
@@ -357,6 +339,7 @@ class PlayerElement {
                 return `${Math.floor(time % 3600 / 60).toString().padStart(2, "0")}:${Math.floor(time % 3600 % 60).toString().padStart(2, "0")}`
             }
         }
+        keyBinds()
     }
 }
 
@@ -377,18 +360,23 @@ class Episode {
       input.setAttribute("episodeName", this.name)
       document.querySelector(".episodes").appendChild(input)
 
-      if(coockieWatch.length > 0) {
-        var index = coockieWatch.findIndex(ep => ep.episode == this.episode)
-        if(coockieWatch[index] && coockieWatch[index].episode) {
-            input.classList.add("watched")
+        if(coockieWatch.length > 0) {
+            var index = coockieWatch.findIndex(ep => ep.episode === this.episode)
+            if(coockieWatch[index] && coockieWatch[index].episode) {
+                input.classList.add("watched")
+            }
+            if(coockieWatch[coockieWatch.length-1].episode === this.episode) {
+                currentEpisode = this.episode
+                this.loadtohls(this.url)
+                detectEpisodeName(input)
+                input.classList.add("selected")
+            }
         }
-        if(coockieWatch[coockieWatch.length-1].episode == this.episode) {
+        else if(coockieWatch.length < 1 && this.episode === 1) {
             currentEpisode = this.episode
             this.loadtohls(this.url)
             detectEpisodeName(input)
-            input.classList.add("selected")
         }
-      }
     }
 
     loadtohls(url) {
@@ -399,7 +387,7 @@ class Episode {
 }
 
 const detectEpisodeName = (element) => {
-    if(element.getAttribute("episodeName") == undefined) {
+    if(element.getAttribute("episodeName") === undefined) {
         console.log(element.getAttribute("episodeName"))
         document.querySelector(".episodeName").innerHTML = element.getAttribute("episodeName")
     }
@@ -408,3 +396,114 @@ const detectEpisodeName = (element) => {
     }
 }
 
+const moveDisplay = (direction, count) => {
+    const eventDisplay = toggleElements.actionDisplay
+    switch(direction) {
+        case '+':
+            eventDisplay.innerHTML = `${count} >>`
+            break;
+        case '-':
+            eventDisplay.innerHTML = `<< ${count}`
+            break;
+        case '=':
+            eventDisplay.innerHTML = `${count}`
+            break;
+        default:
+            break;
+    }
+    eventDisplay.classList.remove("hiden")
+    setTimeout(() => {
+        eventDisplay.classList.add("hiden")
+    }, 1000)
+}
+
+const keyBinds = () => {
+    const video = toggleElements.video
+    document.addEventListener('keydown', (event) => {
+        switch(event.key) {
+            default:
+                console.log("key does not binded")
+                break
+            case 'ArrowRight':
+              video.currentTime += 5
+              moveDisplay("+", 5)
+              break;
+            case 'ArrowLeft':
+              video.currentTime -= 5
+              moveDisplay("-", 5)
+              break;
+            case 'ArrowUp':
+              if(parseFloat(video.volume).toFixed(2) !== 1) {
+                video.volume += 0.01
+                video.volume = Math.round(video.volume * 100) / 100
+                document.querySelector("input[name=volume]").value = video.volume
+              }
+              moveDisplay("=", `${Math.round(video.volume * 100)}%`)
+              break;
+            case 'ArrowDown':
+              if (parseFloat(video.volume).toFixed(2) !== 0) {
+                video.volume -= 0.01
+                video.volume = Math.round(video.volume * 100) / 100
+                document.querySelector("input[name=volume]").value = video.volume
+              }
+              moveDisplay("=", `${Math.round(video.volume * 100)}%`)
+              break;
+            case 'f':
+                document.fullscreenElement ? document.exitFullscreen() : toggleElements.videoFrame.requestFullscreen()
+                break;
+            case 'a':
+                if(video.currentTime > 0) video.currentTime -= 0.1;
+                moveDisplay("-", "frame")
+                break;
+            case 'd':
+                video.currentTime += 0.1
+                moveDisplay("+", "frame")
+                break;
+            case 'w':
+                video.playbackRate += 0.5 
+                document.querySelector("[name=playbackRate]").value = video.playbackRate
+                document.querySelector("#speedValue").innerHTML = `${video.playbackRate}x`
+                moveDisplay("=", video.playbackRate)
+                break;
+            case 's':
+                if(video.playbackRate > 0){
+                    video.playbackRate -= 0.5
+                    document.querySelector("[name=playbackRate]").value = video.playbackRate
+                    document.querySelector("#speedValue").innerHTML = `${video.playbackRate}x`
+                    moveDisplay("=", video.playbackRate)
+                }
+                else {moveDisplay("=", video.playbackRate)}
+                break;
+            case ' ':
+                playOrPause()
+                break;
+            case 'm':
+                mute()
+                break;
+          }
+    })
+}
+
+const playOrPause = () => { 
+    if(toggleElements.video.paused) {
+        toggleElements.video.play()
+        toggleElements.playIcon.src = `${baseAssetsUrl}/assets/icons/pause.svg`
+    }
+    else {
+        toggleElements.video.pause()
+        toggleElements.playIcon.src = `${baseAssetsUrl}/assets/icons/play.svg` 
+    }
+}
+
+const mute = () => {
+    if(toggleElements.soundIcon.getAttribute("muted") === "false") {
+        toggleElements.soundIcon.setAttribute("muted", "true")
+        toggleElements.soundIcon.src = `${baseAssetsUrl}/assets/icons/sound.svg`
+        toggleElements.video.volume = document.querySelector("input[name=volume]").value
+    }
+    else {
+        toggleElements.soundIcon.setAttribute("muted", "false")
+        toggleElements.soundIcon.src = `${baseAssetsUrl}/assets/icons/sound_muted.svg`
+        toggleElements.video.volume = 0
+    }
+}

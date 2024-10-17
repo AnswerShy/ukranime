@@ -43,7 +43,7 @@ p.description {
 img.banner {
     position: absolute;
     height: -webkit-fill-available;
-    height: -moz-available;
+    height: 100%;
     right: 0;
     bottom: -5px;
     z-index: 1;

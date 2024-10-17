@@ -12,11 +12,9 @@ a:hover {
     top: 0;
     opacity: 0;
     transition: 0.5s;
-    padding: 10px;
-    height: -webkit-fill-available;
-    width: -webkit-fill-available;
 
-    height: 37dvh;
+    height: 100%;
+    width: -webkit-fill-available;
     border-radius: var(--border);
 
     margin: 0;
@@ -26,7 +24,7 @@ a:hover {
 
 .displayInfo {
     width: 13dvw;
-    min-width: 255px;
+    min-width: 236px;
 
     height: 39dvh;
     min-height: 370px;
