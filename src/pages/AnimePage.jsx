@@ -25,8 +25,17 @@ export default function Anime() {
       }, []); 
     return (
         <>
-            <Banner title={title} bannerData={bannerData} bg={true}/>
-            <Player title={title}/>
+            {!bannerData ? 
+              (<div>Loading</div>) 
+              : 
+              (<>
+                  <Banner title={title} bannerData={bannerData} bg={true}/>
+                  <section className="player">
+                    <iframe src={bannerData.OneLinePlayer} className="iframeVideo" allowFullScreen skip></iframe>  
+                  </section>
+                </>
+              )
+            }
         </>
     );
 }
